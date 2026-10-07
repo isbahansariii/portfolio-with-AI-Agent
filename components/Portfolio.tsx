@@ -1,12 +1,374 @@
-import { ArrowUpRight, BriefcaseBusiness, Code2, ExternalLink, Github, Linkedin, Mail, MapPin } from "lucide-react";
+"use client";
+
+import { useRef } from "react";
+import {
+  ArrowDown,
+  ArrowUpRight,
+  BriefcaseBusiness,
+  Code2,
+  ExternalLink,
+  Github,
+  Linkedin,
+  Mail,
+  MapPin,
+  Sparkles,
+} from "lucide-react";
 import { experience, profile, projects, skills } from "@/lib/data";
 import Navbar from "./Navbar";
 import AIChat from "./AIChat";
-function Section({id,title,children}:{id:string,title:string,children:React.ReactNode}){return <section id={id} className="py-24 scroll-mt-16"><div className="container"><div className="mb-10"><div className="text-xs uppercase tracking-[.22em] muted mb-3">{title}</div>{children}</div></div></section>}
-export default function Portfolio(){return <><Navbar/><main id="top"><section className="min-h-screen grid-bg flex items-center pt-16"><div className="container py-20"><div className="max-w-4xl"><div className="flex items-center gap-2 text-sm muted mb-7"><span className="h-2 w-2 rounded-full bg-current animate-pulse"/>Available for long-term remote opportunities</div><h1 className="text-[clamp(3.2rem,9vw,7.5rem)] font-semibold tracking-[-.065em] leading-[.9]">Isbah<br/><span className="muted">Ansari.</span></h1><p className="mt-8 text-xl md:text-2xl max-w-2xl leading-relaxed muted">Frontend Developer & Software Engineer focused on clean interfaces, maintainable code and thoughtful user experiences.</p><div className="mt-9 flex flex-wrap gap-3"><a href="#projects" className="rounded-full bg-[var(--accent)] text-[var(--accentFg)] px-6 py-3 text-sm font-medium flex items-center gap-2">Explore work <ArrowUpRight size={16}/></a><a href="#ai" className="rounded-full border border-[var(--line)] px-6 py-3 text-sm font-medium">Chat with AI Me</a></div><div className="mt-12 flex flex-wrap gap-x-6 gap-y-2 text-sm muted"><span className="flex items-center gap-2"><MapPin size={15}/>Pakistan · PKT</span><a className="flex items-center gap-2 hover:text-[var(--fg)]" href={profile.github} target="_blank"><Github size={15}/>GitHub</a><a className="flex items-center gap-2 hover:text-[var(--fg)]" href={profile.linkedin} target="_blank"><Linkedin size={15}/>LinkedIn</a></div></div></div></section>
-<Section id="about" title="About"><div className="grid md:grid-cols-[1.1fr_.9fr] gap-10"><h2 className="text-3xl md:text-5xl font-semibold tracking-tight">I build interfaces that feel simple, fast and intentional.</h2><div className="space-y-5 text-lg leading-8 muted"><p>{profile.summary}</p><p>My current work combines Next.js frontend development, state management, API integration, UI improvements and practical security measures such as input sanitization.</p><p>My philosophy is straightforward: understand the problem, write code another developer can maintain, and improve the product rather than just completing the ticket.</p></div></div></Section>
-<Section id="experience" title="Experience"><div className="space-y-4">{experience.map((e)=><article key={e.company} className="card p-6 md:p-8 grid md:grid-cols-[.35fr_1fr] gap-5"><div><div className="font-semibold">{e.role}</div><div className="muted text-sm mt-1">{e.company}</div><div className="muted text-sm mt-3">{e.date}</div></div><ul className="space-y-2 text-sm leading-6 muted">{e.bullets.map(b=><li key={b}>— {b}</li>)}</ul></article>)}</div></Section>
-<Section id="projects" title="Selected projects"><div className="grid md:grid-cols-2 gap-4">{projects.map((p,i)=><article key={p.title} className={'card p-6 md:p-8 flex flex-col min-h-[300px] '+(i===0?'md:col-span-2':'')}><div className="flex items-start justify-between gap-4"><div><div className="text-xs uppercase tracking-[.18em] muted">{p.type}</div><h3 className="text-2xl font-semibold mt-2">{p.title}</h3></div><Code2 size={20} className="muted"/></div><p className="mt-5 leading-7 muted max-w-2xl">{p.description}</p><div className="mt-auto pt-8 flex flex-wrap gap-2">{p.stack.map(s=><span key={s} className="rounded-full border border-[var(--line)] px-3 py-1 text-xs">{s}</span>)}</div><div className="mt-5 flex gap-4 text-sm">{p.github&&<a href={p.github} target="_blank" className="flex items-center gap-1 underline underline-offset-4">GitHub <Github size={14}/></a>}{p.demo&&<a href={p.demo} target="_blank" className="flex items-center gap-1 underline underline-offset-4">Live demo <ExternalLink size={14}/></a>}</div></article>)}</div><p className="mt-5 text-xs muted">Project repository/demo URLs can be added in <code>lib/data.ts</code> once you select the exact public links.</p></Section>
-<Section id="skills" title="Skills"><div className="grid sm:grid-cols-2 gap-4">{Object.entries(skills).map(([group,items])=><div key={group} className="card p-6"><h3 className="font-semibold mb-4">{group}</h3><div className="flex flex-wrap gap-2">{items.map(s=><span key={s} className="rounded-full bg-black/5 dark:bg-white/5 px-3 py-2 text-sm">{s}</span>)}</div></div>)}</div></Section>
-<Section id="ai" title="Ask My AI"><div className="card p-8 md:p-12 grid md:grid-cols-[1fr_auto] gap-8 items-center"><div><div className="text-3xl md:text-5xl font-semibold tracking-tight">Curious about my work?</div><p className="mt-4 muted max-w-2xl leading-7">Ask my AI assistant about my technical stack, projects, experience, working style, or how to hire me. It answers using a private server-side knowledge prompt.</p></div><button onClick={()=>window.dispatchEvent(new CustomEvent('open-ai'))} className="rounded-full bg-[var(--accent)] text-[var(--accentFg)] px-6 py-3 text-sm whitespace-nowrap">Ask a question</button></div></Section>
-<Section id="contact" title="Contact"><div className="grid md:grid-cols-2 gap-10"><div><h2 className="text-4xl md:text-6xl font-semibold tracking-tight">Let’s build something useful.</h2><p className="mt-5 muted leading-7 max-w-lg">For opportunities, freelance work or collaboration, send me a message or connect through LinkedIn or GitHub.</p><div className="mt-7 space-y-3 text-sm"><a href={'mailto:'+profile.email} className="flex items-center gap-3"><Mail size={17}/>{profile.email}</a><a href={profile.linkedin} target="_blank" className="flex items-center gap-3"><Linkedin size={17}/>LinkedIn</a><a href={profile.github} target="_blank" className="flex items-center gap-3"><Github size={17}/>GitHub</a></div></div><form action={'mailto:'+profile.email} method="post" encType="text/plain" className="card p-6 space-y-4"><input name="name" required placeholder="Your name" className="w-full bg-transparent border-b border-[var(--line)] py-3 outline-none"/><input name="email" type="email" required placeholder="Your email" className="w-full bg-transparent border-b border-[var(--line)] py-3 outline-none"/><textarea name="message" required rows={5} placeholder="Tell me about your project or opportunity…" className="w-full bg-transparent border-b border-[var(--line)] py-3 outline-none resize-none"/><button className="rounded-full bg-[var(--accent)] text-[var(--accentFg)] px-6 py-3 text-sm">Send message</button></form></div></Section></main><AIChat/><footer className="border-t border-[var(--line)] py-8"><div className="container flex flex-col sm:flex-row justify-between gap-3 text-xs muted"><span>© {new Date().getFullYear()} Isbah Ansari</span><span>Built with Next.js · TypeScript · Tailwind CSS</span></div></footer></>}
+
+function Section({
+  id,
+  title,
+  children,
+}: {
+  id: string;
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section id={id} className="section scroll-mt-24">
+      <div className="container">
+        <div className="section-label">
+          <span>{title}</span>
+          <i />
+        </div>
+        {children}
+      </div>
+    </section>
+  );
+}
+
+function TiltCard({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  const ref = useRef<HTMLElement | null>(null);
+  function move(e: React.MouseEvent<HTMLElement>) {
+    const el = ref.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - 0.5;
+    const y = (e.clientY - r.top) / r.height - 0.5;
+    el.style.setProperty("--rx", `${-y * 7}deg`);
+    el.style.setProperty("--ry", `${x * 9}deg`);
+    el.style.setProperty("--mx", `${(x + 0.5) * 100}%`);
+    el.style.setProperty("--my", `${(y + 0.5) * 100}%`);
+  }
+  function leave() {
+    const el = ref.current;
+    if (!el) return;
+    el.style.setProperty("--rx", "0deg");
+    el.style.setProperty("--ry", "0deg");
+  }
+  return (
+    <article
+      ref={ref}
+      onMouseMove={move}
+      onMouseLeave={leave}
+      className={`tilt-card ${className}`}
+    >
+      {children}
+    </article>
+  );
+}
+
+export default function Portfolio() {
+  return (
+    <>
+      <Navbar />
+      <main id="top">
+        <section className="hero">
+          <div className="hero-grid" />
+          <div className="hero-glow glow-one" />
+          <div className="hero-glow glow-two" />
+          <div className="container hero-inner">
+            <div className="hero-copy">
+              <div className="availability">
+                <span className="status-dot" /> Available for freelance project or remote opportunities
+              </div>
+              <div className="eyebrow">
+                <span>Frontend Developer</span>
+                <span className="eyebrow-line" />
+                <span>Software Engineer</span>
+              </div>
+              <h1>
+                Building digital
+                <br />
+                <span>experiences</span> with depth.
+              </h1>
+              <p className="hero-text">
+                I'm Isbah - a frontend developer focused on Next.js, React.js
+                and Redux. I turn complex product requirements into clean,
+                responsive and maintainable interfaces.
+              </p>
+              <div className="hero-actions">
+                <a href="#projects" className="button button-primary">
+                  Explore work <ArrowUpRight size={17} />
+                </a>
+                <a href="#ai" className="button button-ghost">
+                  <Sparkles size={16} /> Ask my AI
+                </a>
+              </div>
+              <div className="hero-meta">
+                <span>
+                  <MapPin size={15} /> {profile.location}
+                </span>
+                <a href={profile.github} target="_blank" rel="noreferrer">
+                  <Github size={15} /> GitHub
+                </a>
+                <a href={profile.linkedin} target="_blank" rel="noreferrer">
+                  <Linkedin size={15} /> LinkedIn
+                </a>
+              </div>
+            </div>
+            <div className="hero-visual" aria-hidden="true">
+              <div className="orbit orbit-a" />
+              <div className="orbit orbit-b" />
+              <div className="code-orb">
+                <div className="orb-top">
+                  <span className="window-dot" />
+                  <span className="window-dot" />
+                  <span className="window-dot" />
+                  <span className="orb-title">isbah.dev</span>
+                </div>
+                <div className="code-lines">
+                  <span>
+                    <b>01</b> const developer = {"{"}
+                  </span>
+                  <span>
+                    <b>02</b>&nbsp; name: <em>"Isbah"</em>,
+                  </span>
+                  <span>
+                    <b>03</b>&nbsp; stack: [<em>"Next.js"</em>,
+                  </span>
+                  <span>
+                    <b>04</b>&nbsp;&nbsp;&nbsp;&nbsp;<em>"React"</em>,{" "}
+                    <em>"Redux"</em>],
+                  </span>
+                  <span>
+                    <b>05</b>&nbsp; mindset: <em>"clean"</em>,
+                  </span>
+                  <span>
+                    <b>06</b>&nbsp; coffee: <em>true</em>
+                  </span>
+                  <span>
+                    <b>07</b> {"}"}
+                  </span>
+                </div>
+                <div className="orb-status">
+                  <span /> building something useful
+                </div>
+              </div>
+              <div className="float-chip chip-one">
+                <Code2 size={15} /> Next.js
+              </div>
+              <div className="float-chip chip-two">
+                <Sparkles size={15} /> AI-ready
+              </div>
+              <div className="float-chip chip-three">
+                <span className="mini-dot" /> Clean UI
+              </div>
+            </div>
+          </div>
+          <a className="scroll-cue" href="#about">
+            <span>Scroll to explore</span>
+            <ArrowDown size={15} />
+          </a>
+        </section>
+
+        <Section id="about" title="About">
+          <div className="about-grid">
+            <div>
+              <h2>
+                Simple on the surface.
+                <br />
+                <span>Thoughtful underneath.</span>
+              </h2>
+            </div>
+            <div className="about-copy">
+              <p>{profile.summary}</p>
+              <p>
+                My current work combines Next.js frontend development, state
+                management, API integration, UI improvements and practical
+                security measures such as input sanitization.
+              </p>
+              <p>
+                I care about the details that make software feel trustworthy:
+                clear hierarchy, responsive behavior, reusable components and
+                code another developer can understand.
+              </p>
+            </div>
+          </div>
+        </Section>
+
+        <Section id="experience" title="Experience">
+          <div className="experience-list">
+            {experience.map((e, i) => (
+              <TiltCard key={e.company} className="experience-card">
+                <div className="experience-index">0{i + 1}</div>
+                <div className="experience-main">
+                  <div className="experience-heading">
+                    <div>
+                      <h3>{e.role}</h3>
+                      <p>{e.company}</p>
+                    </div>
+                    <span>{e.date}</span>
+                  </div>
+                  <ul>
+                    {e.bullets.map((b) => (
+                      <li key={b}>{b}</li>
+                    ))}
+                  </ul>
+                </div>
+              </TiltCard>
+            ))}
+          </div>
+        </Section>
+
+        <Section id="projects" title="Selected work">
+          <div className="projects-grid">
+            {projects.map((p, i) => (
+              <TiltCard
+                key={p.title}
+                className={`project-card ${i === 0 ? "featured" : ""}`}
+              >
+                <div className="project-no">0{i + 1}</div>
+                <div className="project-top">
+                  <span>{p.type}</span>
+                  <Code2 size={19} />
+                </div>
+                <h3>{p.title}</h3>
+                <p>{p.description}</p>
+                <div className="stack">
+                  {p.stack.map((s) => (
+                    <span key={s}>{s}</span>
+                  ))}
+                </div>
+                <div className="project-links">
+                  {p.github && (
+                    <a href={p.github} target="_blank" rel="noreferrer">
+                      GitHub <Github size={14} />
+                    </a>
+                  )}
+                  {p.demo && (
+                    <a href={p.demo} target="_blank" rel="noreferrer">
+                      Live demo <ExternalLink size={14} />
+                    </a>
+                  )}
+                  <span className="project-arrow">
+                    <ArrowUpRight size={18} />
+                  </span>
+                </div>
+              </TiltCard>
+            ))}
+          </div>
+        </Section>
+
+        <Section id="skills" title="Skills">
+          <div className="skills-layout">
+            <div>
+              <h2>
+                Tools I use to turn
+                <br />
+                <span>ideas into interfaces.</span>
+              </h2>
+              <p className="muted">
+                A frontend-first toolkit with enough backend knowledge to
+                understand the whole product.
+              </p>
+            </div>
+            <div className="skills-grid">
+              {Object.entries(skills).map(([group, items]) => (
+                <TiltCard key={group} className="skill-card">
+                  <h3>{group}</h3>
+                  <div>
+                    {items.map((s) => (
+                      <span key={s}>{s}</span>
+                    ))}
+                  </div>
+                </TiltCard>
+              ))}
+            </div>
+          </div>
+        </Section>
+
+        <Section id="ai" title="Ask My AI">
+          <div className="ai-banner">
+            <div className="ai-ring">
+              <Sparkles size={25} />
+            </div>
+            <div>
+              <span className="mini-label">Interactive assistant</span>
+              <h2>Want to know how I work?</h2>
+              <p>
+                Ask my AI assistant about my stack, projects, experience,
+                working style, or how to hire me.
+              </p>
+            </div>
+            <button
+              onClick={() => window.dispatchEvent(new CustomEvent("open-ai"))}
+              className="button button-primary"
+            >
+              Start conversation <ArrowUpRight size={17} />
+            </button>
+          </div>
+        </Section>
+
+        <Section id="contact" title="Contact">
+          <div className="contact-grid">
+            <div>
+              <h2>
+                Let’s build something
+                <br />
+                <span>useful.</span>
+              </h2>
+              <p className="muted">
+                For opportunities, freelance work or collaboration, send me a
+                message or connect through LinkedIn or GitHub.
+              </p>
+              <div className="contact-links">
+                <a href={"mailto:" + profile.email}>
+                  <Mail size={17} />
+                  {profile.email}
+                </a>
+                <a href={profile.linkedin} target="_blank" rel="noreferrer">
+                  <Linkedin size={17} />
+                  LinkedIn
+                </a>
+                <a href={profile.github} target="_blank" rel="noreferrer">
+                  <Github size={17} />
+                  GitHub
+                </a>
+              </div>
+            </div>
+            <TiltCard className="contact-card">
+              <div className="contact-card-top">
+                <BriefcaseBusiness size={20} />
+                <span>Available for opportunities</span>
+              </div>
+              <h3>Have a project in mind?</h3>
+              <p>Tell me what you're building and I'll get back to you.</p>
+              <a
+                href={"mailto:" + profile.email + "?subject=Project%20Inquiry"}
+                className="button button-primary"
+              >
+                Email me <Mail size={16} />
+              </a>
+            </TiltCard>
+          </div>
+        </Section>
+      </main>
+      <AIChat />
+      <footer>
+        <div className="container footer-inner">
+          <span>© {new Date().getFullYear()} Isbah Ansari</span>
+          <span>Next.js · TypeScript · Tailwind CSS</span>
+        </div>
+      </footer>
+    </>
+  );
+}
